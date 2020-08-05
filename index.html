@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Front end task</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            padding: 1% 30%;
+            font-family: Arial, Verdana;
+            font-size: 16px;
+        }
+
+        input {
+            margin-right: 5px;
+        }
+
+        ul {
+            padding-left: 0;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        #guestsCount {
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <p>Count of guests:<input id="guestsCount" type="number"></p>
+</div>
+<div>
+    <p>Fill Guests</p>
+    <form id="myForm" onsubmit="submitForm();return false">
+        <table id="guestsTable"></table>
+        <input type="submit" style="position: absolute; left: -9999px"/>
+    </form>
+</div>
+<div>
+    <p>Guests</p>
+    <ul id="guestsList"></ul>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#guestsCount').keypress(function (event) {
+            if (event.keyCode === 10 || event.keyCode === 13) {
+                event.preventDefault();
+                let number = document.getElementById("guestsCount").value;
+                let guestsTable = document.getElementById('guestsTable');
+                let rows = guestsTable.getElementsByTagName("tr");
+                while (rows.length) {
+                    rows[0].parentNode.removeChild(rows[0]);
+                }
+                for (let i = 0; i < number; i++) {
+                    guestsTable.innerHTML += '<tr class="guest"><td><input type="text" id="name" placeholder="Name" /></td><td><input type="text" id="surname" placeholder="Surname" /></td></tr>';
+                }
+            }
+        });
+
+    });
+
+    function submitForm() {
+        let guestsList = document.getElementById('guestsList');
+        let innerHTML = '';
+        for (let i = 0; i < document.getElementsByClassName('guest').length; i++) {
+            let guest = document.getElementsByClassName('guest')[i].children;
+            let name = guest[0].children[0].value;
+            let surname = guest[1].children[0].value;
+            if (!(name === '') && !(surname === '')) {
+                innerHTML += `<li style="list-style-type:none">${name} ${surname}</li>`;
+            }
+        }
+        guestsList.innerHTML = innerHTML;
+
+
+    }
+</script>
+</body>
+</html>
